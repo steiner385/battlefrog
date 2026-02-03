@@ -8,7 +8,7 @@ script = ExtResource("1_hud")
 [node name="ScoreLabel" type="Label" parent="."]
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 200.0
+offset_right = 300.0
 offset_bottom = 60.0
 theme_override_font_sizes/font_size = 24
 text = "Score: 0"
@@ -20,3 +20,29 @@ offset_right = 200.0
 offset_bottom = 100.0
 theme_override_font_sizes/font_size = 24
 text = "Time: 60"
+
+[node name="ControlsPanel" type="Panel" parent="."]
+offset_left = 0.0
+offset_top = 680.0
+offset_right = 1280.0
+offset_bottom = 720.0
+modulate = Color(0, 0, 0, 0.5)
+
+[node name="P1Controls" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 688.0
+offset_right = 500.0
+offset_bottom = 718.0
+theme_override_colors/font_color = Color(0.4, 1.0, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "P1 (Green): WASD move | SPACE jump | E tongue"
+
+[node name="P2Controls" type="Label" parent="."]
+offset_left = 780.0
+offset_top = 688.0
+offset_right = 1260.0
+offset_bottom = 718.0
+theme_override_colors/font_color = Color(0.4, 0.8, 1.0, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 2
+text = "P2 (Blue): Arrows move | UP jump | / tongue"

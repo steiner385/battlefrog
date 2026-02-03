@@ -21,6 +21,7 @@ signal facing_changed(direction: String)
 @onready var tongue = null
 @onready var jump_sound = null
 @onready var stun_sound = null
+@onready var sprite = null
 
 func _ready():
 	add_to_group("frogs")
@@ -28,6 +29,11 @@ func _ready():
 		if child.name == "Tongue": tongue = child
 		elif child.name == "JumpSound": jump_sound = child
 		elif child.name == "StunSound": stun_sound = child
+		elif child.name == "Sprite2D": sprite = child
+
+	# Set tint based on player number
+	if sprite and player_number == 2:
+		sprite.modulate = Color(0.5, 0.7, 1.0, 1)  # Blue tint for P2
 
 func _physics_process(delta: float):
 	if state == "stunned":
@@ -37,10 +43,11 @@ func _physics_process(delta: float):
 			recovered.emit()
 			modulate = Color(1, 1, 1, 1)
 		return
-	
+
 	if not is_on_floor(): velocity.y += GRAVITY * delta
-	
+
 	var input_prefix = "player" + str(player_number) + "_"
+
 	if Input.is_action_pressed(input_prefix + "left"):
 		velocity.x = -MOVE_SPEED
 		set_facing("left")
@@ -49,16 +56,17 @@ func _physics_process(delta: float):
 		set_facing("right")
 	else:
 		velocity.x = 0
-	
+
 	if Input.is_action_just_pressed(input_prefix + "jump") and is_on_floor():
 		velocity.y = JUMP_FORCE
 		jumped.emit()
 		if jump_sound: jump_sound.play()
-	
-	if Input.is_action_just_pressed(input_prefix + "attack") and tongue:
-		attacked.emit()
-		tongue.extend()
-	
+
+	if Input.is_action_just_pressed(input_prefix + "attack"):
+		if tongue and tongue.state == "retracted":
+			attacked.emit()
+			tongue.extend()
+
 	move_and_slide()
 	position.x = clamp(position.x, 16, SCREEN_WIDTH - 16)
 	position.y = clamp(position.y, 16, SCREEN_HEIGHT - 16)
@@ -67,7 +75,12 @@ func set_facing(direction: String):
 	if facing != direction:
 		facing = direction
 		facing_changed.emit(direction)
-		scale.x = -1 if direction == "left" else 1
+		# Flip sprite and tongue instead of root node (move_and_slide resets root scale)
+		var flip = -1 if direction == "left" else 1
+		if sprite:
+			sprite.scale.x = abs(sprite.scale.x) * flip
+		if tongue:
+			tongue.scale.x = flip
 
 func stun(duration: float):
 	state = "stunned"

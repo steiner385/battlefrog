@@ -9,6 +9,7 @@ const SPAWN_MARGIN = 50
 
 var time_elapsed: float = 0.0
 var active_flies: Array = []
+var frogs: Array = []
 
 func _ready():
 	GameState.reset_game()
@@ -24,6 +25,7 @@ func spawn_frog(player_number: int, spawn_pos: Vector2):
 	frog.player_number = player_number
 	frog.position = spawn_pos
 	add_child(frog)
+	frogs.append(frog)
 	if frog.tongue:
 		frog.tongue.hit_fly.connect(_on_tongue_hit_fly.bind(frog))
 		frog.tongue.hit_frog.connect(_on_tongue_hit_frog)

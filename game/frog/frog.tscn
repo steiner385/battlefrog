@@ -1,22 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://bwt3qbqf5rl1e"]
+[gd_scene load_steps=6 format=3 uid="uid://bwt3qbqf5rl1e"]
 
 [ext_resource type="Script" path="res://game/frog/frog.gd" id="1_frog"]
 [ext_resource type="PackedScene" uid="uid://dwrv3km8f54bh" path="res://game/tongue/tongue.tscn" id="2_tongue"]
+[ext_resource type="Texture2D" path="res://assets/sprites/frog.svg" id="3_frog_sprite"]
 [ext_resource type="AudioStream" path="res://assets/sounds/jump.wav" id="4_jump"]
 [ext_resource type="AudioStream" path="res://assets/sounds/stun.wav" id="5_stun"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_frog"]
-size = Vector2(32, 32)
+size = Vector2(40, 40)
 
 [node name="Frog" type="CharacterBody2D" groups=["frogs"]]
 script = ExtResource("1_frog")
 
-[node name="Sprite2D" type="ColorRect" parent="."]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.2, 0.8, 0.2, 1)
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("3_frog_sprite")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_frog")
